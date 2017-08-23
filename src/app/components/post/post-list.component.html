@@ -1,0 +1,42 @@
+<p>
+    <button class="btn btn-primary" (click)="opened = true">New Post</button>
+</p>
+<clr-modal [(clrModalOpen)]="opened">
+    <h3 class="modal-title">Create a new Post</h3>
+    <div class="modal-body">
+        <form [formGroup]="postForm" novalidate (ngSubmit)="save(postForm.value, postForm.valid)">
+            <section class="form-block">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="Title" size="45" formControlName="title">
+                </div>
+                <div class="form-group">
+                    <label for="body">Body</label>
+                    <textarea id="body" rows="5" formControlName="body"></textarea>
+                </div>
+            </section>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" (click)="opened = false">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</clr-modal>
+
+
+<clr-datagrid>
+    <clr-dg-column>User ID</clr-dg-column>
+    <clr-dg-column>Title</clr-dg-column>
+    <clr-dg-column>Description</clr-dg-column>
+
+
+    <clr-dg-row *clrDgItems="let post of posts$ | async">
+        <clr-dg-cell>{{post.userId}}</clr-dg-cell>
+        <clr-dg-cell>{{post.title}}</clr-dg-cell>
+        <clr-dg-cell>{{post.body}}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{(posts$ | async)?.length}} posts
+        <clr-dg-pagination #pagination [clrDgTotalItems]="(posts$ | async)?.length" [clrDgPageSize]="10"></clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
