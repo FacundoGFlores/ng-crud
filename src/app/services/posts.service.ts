@@ -23,4 +23,16 @@ export class PostsService {
             .post(`${rootUrl}/posts`, post)
             .map(response => response.json())
     }
+
+    updatePost(id: Number, post: Post) {
+        return this.http
+            .put(`${rootUrl}/posts/${id}`, post)
+            .map(response => response.json())
+    }
+
+    deletePost(id: Number) {
+        return this.http
+            .delete(`${rootUrl}/posts/${id}`)
+            .map(response => response.json())
+    }
 }
