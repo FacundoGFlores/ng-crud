@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { PostsService } from "app/services/posts.service";
 import { Observable } from "rxjs/Observable";
+
 import { Post } from "app/models/post";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/publishReplay';
 
 @Component({
     styleUrls: ['./post-list.component.scss'],
@@ -33,7 +35,9 @@ export class PostListComponent implements OnInit {
         if (isValid) {
             this.opened = false;
             this.posts$ = this.postsService.savePost(post)
-                .switchMap(() => this.postsService.getPosts());
+                .switchMap(() => this.postsService.getPosts())
+                .publishReplay(1)
+                .refCount();
         } else {
             console.log("invalid form");
         }

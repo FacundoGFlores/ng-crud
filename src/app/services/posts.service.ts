@@ -5,6 +5,8 @@ import { Post } from "app/models/post";
 
 import 'rxjs/add/operator/map';
 
+const rootUrl = 'http://localhost:3000';
+
 @Injectable()
 export class PostsService {
 
@@ -12,13 +14,13 @@ export class PostsService {
 
     getPosts(): Observable<Post[]> {
         return this.http
-            .get('http://jsonplaceholder.typicode.com/posts')
+            .get(`${rootUrl}/posts`)
             .map(response => response.json())
     }
 
     savePost(post: Post) {
         return this.http
-            .post('http://jsonplaceholder.typicode.com/posts', post)
+            .post(`${rootUrl}/posts`, post)
             .map(response => response.json())
     }
 }
